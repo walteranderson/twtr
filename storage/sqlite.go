@@ -3,6 +3,7 @@ package storage
 import (
 	"database/sql"
 	"errors"
+	"time"
 
 	"github.com/walteranderson/twtr/types"
 )
@@ -54,10 +55,10 @@ func (s *SQLiteStorage) GetAllPosts() ([]types.Post, error) {
 }
 
 func (s *SQLiteStorage) GetPost(id string) (*types.Post, error) {
-	row := s.db.QueryRow("SELECT id, body, view_count FROM posts")
+	row := s.db.QueryRow("SELECT id, body, view_count, posted_at FROM posts WHERE id = ?", id)
 
 	var post types.Post
-	if err := row.Scan(&post.ID, &post.Body, &post.ViewCount); err != nil {
+	if err := row.Scan(&post.ID, &post.Body, &post.ViewCount, &post.PostedAt); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNotExists
 		}
@@ -81,6 +82,7 @@ func (s *SQLiteStorage) CreatePost(post types.Post) (*types.Post, error) {
 
 	post.ID = id
 	post.ViewCount = 0
+	post.PostedAt = time.Now()
 
 	return &post, nil
 }

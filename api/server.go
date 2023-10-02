@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -25,6 +24,7 @@ func (s *Server) Start() {
 	router := gin.Default()
 	router.GET("/", s.helloWorld)
 	router.GET("/posts", s.getAllPosts)
+	router.GET("/posts/:id", s.getPost)
 	router.POST("/posts", s.createPost)
 
 	router.Run(s.listenAddr)
@@ -37,24 +37,39 @@ func (s *Server) helloWorld(c *gin.Context) {
 func (s *Server) getAllPosts(c *gin.Context) {
 	posts, err := s.store.GetAllPosts()
 	if err != nil {
-		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "404", "message": "Internal Server Error"})
 	}
 
-	log.Println(posts)
 	c.JSON(http.StatusOK, posts)
+}
+
+func (s *Server) getPost(c *gin.Context) {
+	id := c.Param("id")
+	post, err := s.store.GetPost(id)
+	if err != nil {
+		if err == storage.ErrNotExists {
+			c.JSON(http.StatusNotFound, gin.H{"status": "404", "message": "Not Found"})
+			return
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"status": "404", "message": "Internal Server Error"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, post)
 }
 
 func (s *Server) createPost(c *gin.Context) {
 	var post types.Post
 
 	if err := c.BindJSON(&post); err != nil {
-		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "404", "message": "Internal Server Error"})
 	}
 
-  newPost, err := s.store.CreatePost(post)
-  if err != nil {
-    log.Fatal(err)
-  }
+	newPost, err := s.store.CreatePost(post)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "404", "message": "Internal Server Error"})
+	}
 
-  log.Println(newPost)
+	c.JSON(http.StatusOK, newPost)
 }
