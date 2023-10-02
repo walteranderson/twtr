@@ -7,4 +7,5 @@ type Storage interface {
 	GetAllPosts() ([]types.Post, error)
 	GetPost(id string) (*types.Post, error)
 	CreatePost(post types.Post) (*types.Post, error)
+	UpdatePost(post types.Post) (*types.Post, error)
 }

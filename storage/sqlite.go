@@ -86,3 +86,12 @@ func (s *SQLiteStorage) CreatePost(post types.Post) (*types.Post, error) {
 
 	return &post, nil
 }
+
+func (s *SQLiteStorage) UpdatePost(post types.Post) (*types.Post, error) {
+  _, err := s.db.Exec("UPDATE posts SET body = ? WHERE id = ?", post.Body, post.ID)
+  if err != nil {
+    return nil, err
+  }
+
+  return &post, nil
+}
