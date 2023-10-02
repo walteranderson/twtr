@@ -2,8 +2,13 @@ package storage
 
 import (
 	"database/sql"
+	"errors"
 
 	"github.com/walteranderson/twtr/types"
+)
+
+var (
+	ErrNotExists = errors.New("row not exists")
 )
 
 type SQLiteStorage struct {
@@ -29,16 +34,35 @@ func (s *SQLiteStorage) Migrate() error {
 	return err
 }
 
-func (s *SQLiteStorage) GetAllPosts() []*types.Post {
-	var posts []*types.Post
-
-	for i := 0; i < 5; i++ {
-		posts = append(posts, &types.Post{})
+func (s *SQLiteStorage) GetAllPosts() ([]types.Post, error) {
+	rows, err := s.db.Query("SELECT id, body, view_count FROM posts")
+	if err != nil {
+		return nil, err
 	}
 
-	return posts
+	var posts []types.Post = []types.Post{}
+	for rows.Next() {
+		var post types.Post
+		if err := rows.Scan(&post.ID, &post.Body, &post.ViewCount); err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+
+	return posts, nil
 }
 
-func (s *SQLiteStorage) GetPost(id string) *types.Post {
-	return &types.Post{}
+func (s *SQLiteStorage) GetPost(id string) (*types.Post, error) {
+	row := s.db.QueryRow("SELECT id, body, view_count FROM posts")
+
+	var post types.Post
+	if err := row.Scan(&post.ID, &post.Body, &post.ViewCount); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrNotExists
+		}
+
+		return nil, err
+	}
+
+	return &post, nil
 }
