@@ -8,7 +8,7 @@ type User struct {
 }
 
 type Post struct {
-	ID        string    `json:"id"`
+	ID        int64     `json:"id"`
 	Body      string    `json:"body"`
 	UserID    string    `json:"user_id"`
 	PostedAt  time.Time `json:"posted_at"`
