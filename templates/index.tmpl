@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <title>TWTR</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+  </head>
+  <body>
+    {{ range .posts }}
+      <p>{{ .Body }}</p>
+    {{ end }}
+  </body>
+</html>
