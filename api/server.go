@@ -20,10 +20,14 @@ func NewServer(listenAddr string, store storage.Storage) *Server {
 func (s *Server) Start() {
 	router := gin.Default()
 	router.GET("/", s.helloWorld)
-	router.GET("/posts", s.getAllPosts)
-	router.POST("/posts", s.createPost)
-	router.GET("/posts/:id", s.getPost)
-	router.PATCH("/posts/:id", s.updatePost)
+
+  api := router.Group("/api")
+  {
+    api.GET("/posts", s.getAllPosts)
+    api.POST("/posts", s.createPost)
+    api.GET("/posts/:id", s.getPost)
+    api.PATCH("/posts/:id", s.updatePost)
+  }
 
 	router.Run(s.listenAddr)
 }
