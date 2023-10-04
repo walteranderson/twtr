@@ -12,11 +12,9 @@ import (
 
 func main() {
 	listenAddr := flag.String("listenaddr", ":3000", "The server address")
-	dbDriver := flag.String("dbdriver", "sqlite3", "The DB driver")
-	dbSourceName := flag.String("dbsourcename", "sqlite.db", "The DB source name")
 	flag.Parse()
 
-	db, err := sql.Open(*dbDriver, *dbSourceName)
+	db, err := sql.Open("sqlite3", "sqlite.db")
 	if err != nil {
 		log.Fatal(err)
 	}
