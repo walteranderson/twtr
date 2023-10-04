@@ -2,9 +2,33 @@
   <head>
     <title>TWTR</title>
     <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/modern-normalize@2.0.0/modern-normalize.css">
     <link rel="stylesheet" href="/static/css/style.css">
   </head>
   <body>
+    <header>
+      <a href="/" class="logo-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="logo"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
+      </a>
+      <nav>
+        <ol>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="#">Notifications</a></li>
+          <li><a href="#">Messages</a></li>
+          <li><a href="#">Lists</a></li>
+          <li><a href="#">Bookmarks</a></li>
+          <li><a href="#">Communities</a></li>
+          <li><a href="#">Premium</a></li>
+          <li><a href="#">Profile</a></li>
+        </ol>
+      </nav>
+    </header>
+
+    <main>
+      <!-- TODO -->
+    </main>
+
     {{ range .posts }}
       <p>{{ .Body }}</p>
     {{ end }}
