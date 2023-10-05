@@ -1,17 +1,60 @@
 :root {
   --primary: rgb(29, 155, 240);
+  --primary-hover: rgb(26, 140, 216);
+  --gray: rgb(47, 51, 54);
   --gray-hover: rgba(15, 20, 25, 0.1);
+  --white-hover: rgba(239, 243, 244, 0.1);
 }
 
 body {
+  background-color: black;
+  color: white;
+  font-family:"TwitterChirp",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
+svg {
+  color: white;
+  fill: currentcolor;
+}
+
+.container {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   height: 100%;
 }
 
+.btn-primary {
+  background-color: var(--primary);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  color: white;
+  border-radius: 999px;
+  line-height: 20px;
+  border: 0;
+  cursor: pointer;
+  font-size: 15px;
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
 
-header {
+/* ============== */
+/* HEADER */
+/* ============== */
+
+
+header,
+.fixed-nav {
+  width: 275px;
+}
+
+.fixed-nav {
+  position: fixed;
+  top: 0;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo-link {
@@ -20,12 +63,78 @@ header {
   border-radius: 999px;
   width: 50px;
   height: 50px;
+  margin: 2px 0;
 }
 .logo-link:hover {
-  background-color: var(--gray-hover);
+  background-color: var(--white-hover);
 }
-
 .logo {
   width: 50px;
   height: 30px;
+}
+
+nav {
+  margin: 4px 0;
+}
+
+nav ol,
+nav li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+nav a svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px;
+  font-size: 20px;
+  border-radius: 999px;
+  width: fit-content;
+  gap: 20px;
+  padding-right: 20px;
+}
+nav a:hover {
+  background-color: var(--white-hover);
+}
+
+.post-btn {
+  width: 90%;
+  font-size: 17px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin: 4px 0;
+}
+
+/* ============== */
+/* MAIN */
+/* ============== */
+
+main {
+  width: 100%;
+  max-width: 600px;
+}
+
+main p {
+  border-left: 1px solid var(--gray);
+  border-right: 1px solid var(--gray);
+  padding: 1rem;
+  margin: 0;
+}
+
+/* ============== */
+/* SIDEBAR */
+/* ============== */
+
+.sidebar {
+  width: 100%;
+  max-width: 350px;
 }

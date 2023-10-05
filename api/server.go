@@ -47,7 +47,7 @@ func (s *Server) renderIndex(c *gin.Context) {
     return
   }
 
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{
+	c.HTML(http.StatusOK, "index.html", gin.H{
     "posts": posts,
 	})
 }
